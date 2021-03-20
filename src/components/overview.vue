@@ -2,9 +2,9 @@
     <div class="c-mains" style='top:112px'>
 
     <!-- 左侧 -->
-    <div class="left">
+    <div class="left" style='left:220px'>
         <div class="d-i left-items" >
-            <c-box class="c-l-item bottom" v-for="item in leftData" :key="item.name" style='width:141% '>
+            <c-box class="c-l-item bottom" v-for="item in leftData" :key="item.name" style='width:155% '>
                 <template v-slot:main>
                     <div class="c-l-title">
                         <span style='float:left;margin-left:4px'>
@@ -15,7 +15,7 @@
                         </span>
                     </div>
 
-                    <div class="num-font c-l-num" style="line-height: 90px;font-size: 50px;">
+                    <div class="num-font c-l-num" style="line-height: 186px;font-size: 50px;">
                         {{item.value}}
                     </div>
                 </template>
@@ -24,9 +24,9 @@
     </div>
 
     <!-- 右侧 -->
-    <div class="right" style='width:1255px'>
+    <div class="right" style='width:1210px;right:220px'>
         <!-- 业务系统安全事件 -->
-        <c-box class="c-r-box c-r-box1" style='margin-top: 0px;height: 175px;'>
+        <c-box class="c-r-box c-r-box1" style='margin-top: 0px;height: 244px;'>
             <template v-slot:main>
                 <img src="../../public/images/chartbg_head.png" style='float: left;margin-top: 2px;'/>
                 <div class="c-r-title">
@@ -47,11 +47,11 @@
         <div class="c-r-main" id="windowAttack" style=' position: relative;top: 23px;;'>
             <div class="tab-head">
                 <div :class="`${attackType==1 ? 'tab-btn1-active' : 'tab-btn1'}`" class="cur"
-                    @click="attackType = 1">舆情情感</div>
+                    @click="attackType = 1">热度趋势</div>
                 <div :class="`${attackType==2 ? 'tab-btn2-active' : 'tab-btn2'}`" class="cur"
-                    @click="attackType = 2">谣言分析</div>
+                    @click="attackType = 2">热门话题</div>
             </div>
-            <c-box class="tab-main" style=' height: 338.8px;'>
+            <c-box class="tab-main" style=' height:615.8px;'>
                 <template v-slot:main>
                     <!--舆情情感 -->
                     <div class="" v-show="attackType==1">
@@ -139,7 +139,7 @@ export default {
             var chart0=this.$echarts.init(document.getElementById('pies'));
             var option = {
                 title: {
-                    text: '堆叠区域图'
+                    // text: '堆叠区域图'
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -151,7 +151,7 @@ export default {
                     }
                 },
                 legend: {
-                    data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+                    data: ['微博','知乎','百度','总体']
                 },
                 toolbox: {
                     feature: {
@@ -178,7 +178,7 @@ export default {
                 ],
                 series: [
                     {
-                        name: '邮件营销',
+                        name: '微博',
                         type: 'line',
                         stack: '总量',
                         areaStyle: {},
@@ -188,7 +188,7 @@ export default {
                         data: [120, 132, 101, 134, 90, 230, 210]
                     },
                     {
-                        name: '联盟广告',
+                        name: '知乎',
                         type: 'line',
                         stack: '总量',
                         areaStyle: {},
@@ -198,7 +198,7 @@ export default {
                         data: [220, 182, 191, 234, 290, 330, 310]
                     },
                     {
-                        name: '视频广告',
+                        name: '百度',
                         type: 'line',
                         stack: '总量',
                         areaStyle: {},
@@ -208,7 +208,7 @@ export default {
                         data: [150, 232, 201, 154, 190, 330, 410]
                     },
                     {
-                        name: '直接访问',
+                        name: '总体',
                         type: 'line',
                         stack: '总量',
                         areaStyle: {},
@@ -216,20 +216,6 @@ export default {
                             focus: 'series'
                         },
                         data: [320, 332, 301, 334, 390, 330, 320]
-                    },
-                    {
-                        name: '搜索引擎',
-                        type: 'line',
-                        stack: '总量',
-                        label: {
-                            show: true,
-                            position: 'top'
-                        },
-                        areaStyle: {},
-                        emphasis: {
-                            focus: 'series'
-                        },
-                        data: [820, 932, 901, 934, 1290, 1330, 1320]
                     }
                 ]
             };             
@@ -242,8 +228,7 @@ export default {
 
 <style scoped>
 .bottom {
-    margin-bottom: 36.1px !important;
-    height: 117px;
-
+    margin-bottom: 22.1px !important;
+    height: 214px;
 }
 </style>

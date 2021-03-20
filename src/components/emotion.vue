@@ -2,9 +2,9 @@
     <div class="c-mains" style='top:112px'>
 
     <!-- 左侧 -->
-    <div class="left">
+    <div class="left" style='width:836px;left:220px'>
 
-        <c-box class="c-r-box c-r-box1" style='margin-top: 0px;height: 582px;'>
+        <c-box class="c-r-box c-r-box1" style='margin-top: 0px;height: 938px;'>
             <template v-slot:main>
                 <img src="../../public/images/chartbg_head.png" style='float: left;margin-top: 2px;'/>
                 <div class="c-r-title">
@@ -18,7 +18,7 @@
     </div>
 
     <!-- 右侧 -->
-    <div class="right" style='width:1065px'>
+    <div class="right" style='width:627px;right:220px'>
         <!-- 业务系统安全事件 -->
         <div class="d-i left-items" v-if="leftState == 1" style="width:100%">
             <c-box class="c-l-item bottom" v-for="item in leftData" :key="item.name" >
@@ -155,7 +155,7 @@ export default {
 <style scoped>
 .bottom {
     margin-bottom: 11.1px !important;
-    height: 185.6px;
+    height: 305.6px;
     width: 100%
 }
 .imgStyle{

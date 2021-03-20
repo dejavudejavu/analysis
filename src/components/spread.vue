@@ -1,12 +1,14 @@
 <template>
     <div class="c-mains" style='top:112px'>
 
+
+     
     <!-- 左侧 -->
     <div class="left">
         <div class="d-i left-items" v-if="leftState == 1">
-            <c-box class="c-l-item bottom" style='width: 500px;height: 587px;'>
+            <c-box class="c-l-item bottom" style='width: 500px;height: 937px;'>
                 <template v-slot:main>
-                    <div class="c-l-title" style='background-size: cover;width: 100%;height: 5.8%;'>
+                    <div class="c-l-title" style='background-size: cover;width: 100%;'>
                         <span>
                             转发热度
                         </span>
@@ -17,10 +19,7 @@
             </c-box>
         </div>
     </div>
-
-    <!-- 右侧 -->
-    <div class="c-bottom" style='top: 0;width: 958px;right: 20px;'>
-        <!-- <div class="list-title">舆论照妖镜</div> -->
+    <div class='right' style='width:1348px'>
         <div class="c-list" style='top:0'>
             <!-- head -->
             <c-box style="width: 100%;">
@@ -37,14 +36,14 @@
             </c-box>
         <!-- 右侧 -->
                     <div>
-                        <div class="c-list-item" style='height:554px'
-                            >
-                            <div class="c-list-text t-over " style='flex=3;height:100%;width:75%' id='chart1'>
+                        <div class="c-list-item" style='height:904px;padding-left:0;'>
+                            <div class="c-list-text t-over " style='flex=3;height:100%;width:75%;border-right: 1px solid #427f92;' id='chart1'>
                                
                             </div>
-                            <div class="c-list-text t-over " style="flex=1;height:100%;width:25%" id='chart2' >
-                                
-                                <div class="c-list-st"></div>
+                            <div class="c-list-text t-over " style="flex=1;height:100%;width:25%"  >
+                                <div id='chart2' style='height:320px;width:100%;margin-bottom:20px'></div>
+                                <div id='chart3'  style='height:320px;width:100%'></div>
+                                <!-- <div class="c-list-st"></div> -->
                             </div>
                             <!-- <div class="c-list-text t-over" :style="listHead[2].style">
                                 {{item.reliability}}
@@ -57,12 +56,10 @@
                             </div> -->
                         </div>
                     </div>
-        </div>
+        </div>   
     </div>
-    <!-- 下侧 -->
-    <div class="c-main-bottom">
 
-    </div>
+
     <!-- 中间 -->
     </div>
 </template>
@@ -96,7 +93,8 @@ export default {
  mounted() {
      this.zhuanfa(), 
      this.guanxi(), 
-     this.cengji()
+     this.bili(), 
+     this.cishu()
  },
  methods:{
      scrollYEvent(){
@@ -117,14 +115,14 @@ export default {
 
         var option = {
             tooltip: {
-                trigger: 'axis',
-                position: function (pt) {
-                    return [pt[0], '10%'];
-                }
+                // trigger: 'axis',
+                // position: function (pt) {
+                //     return [pt[0], '10%'];
+                // }
             },
             title: {
-                left: 'center',
-                text: '大数据量面积图',
+                // left: 'center',
+                // text: '大数据量面积图',
             },
             toolbox: {
                 feature: {
@@ -186,6 +184,7 @@ export default {
         myChart.showLoading();
         $.getJSON(ROOT_PATH + '/data/asset/data/les-miserables.json', function (graph) {
             myChart.hideLoading();
+            console.log(graph);
 
             option = {
                 tooltip: {},
@@ -228,16 +227,16 @@ export default {
 
         option && myChart.setOption(option);         
      },
-     cengji(){
+     bili(){
         var chartDom = document.getElementById('chart2');
         var myChart = this.$echarts.init(chartDom);
         var option;
 
         option = {
             title: {
-                text: '南丁格尔玫瑰图',
-                subtext: '纯属虚构',
-                left: 'center'
+                // text: '南丁格尔玫瑰图',
+                // subtext: '纯属虚构',
+                // left: 'center'
             },
             tooltip: {
                 trigger: 'item',
@@ -311,6 +310,31 @@ export default {
 
         option && myChart.setOption(option);
 
+     },
+     cishu(){
+        var chartDom = document.getElementById('chart3');
+        var myChart = this.$echarts.init(chartDom);
+        var option;
+
+        option = {
+            xAxis: {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [120, 200, 150, 80, 70, 110, 130],
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(180, 180, 180, 0.2)'
+                }
+            }]
+        };
+
+        option && myChart.setOption(option);         
      }
  }
 }
@@ -321,7 +345,7 @@ export default {
     color:white
 }
 .bottom {
-    margin-bottom: 36.1px !important;
+    margin-bottom: 0 !important;
     height: 117px;
 }
 </style>

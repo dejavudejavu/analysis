@@ -72,9 +72,9 @@
 .pie-items {
 	position: absolute;
 	top: 0;
-	left: 14px;
-	right: 14px;
-	bottom: 31px;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	display: flex;
 }
 .pie-item {

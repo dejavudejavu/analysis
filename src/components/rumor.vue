@@ -2,11 +2,11 @@
     <div class="c-mains" style='top:112px'>
 
     <!-- 左侧 -->
-    <div class="left">
+    <div class="left" style='left:220px'>
         <div class="d-i left-items" v-if="leftState == 1">
-            <c-box class="c-l-item bottom" v-for="item in leftData" :key="item.name" style=" height: 589px;width: 972px;">
+            <c-box class="c-l-item bottom" v-for="item in leftData" :key="item.name" style=" height: 938px;width: 946px;">
                 <template v-slot:main>
-                    <div class="c-l-title" style='background-size: cover;width: 100%;height: 5.8%;'>
+                    <div class="c-l-title" style='background-size: cover;width: 100%;'>
                         <span>
                             {{item.name}}
                         </span>
@@ -20,7 +20,7 @@
     </div>
 
     <!-- 右侧 -->
-    <div class="right" style='width: 501px;'>
+    <div class="right" style='width: 501px;right:220px'>
         <!-- 业务系统安全事件 -->
         <c-box class="c-r-box c-r-box1 rightpart"  >
             <template v-slot:main>
@@ -203,11 +203,11 @@ export default {
 
 <style scoped>
 .bottom {
-    margin-bottom: 36.1px !important;
+    margin-bottom: 0 !important;
     height: 117px;
 }
 .rightpart{
     margin-top: 0px;
-    height: 288.6px;
+    height: 463.6px;
 }
 </style>

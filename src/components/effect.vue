@@ -5,7 +5,7 @@
 
         </div>
         <!-- bottom list -->
-        <div class="c-bottom" style='top: 156px;width: 98%;position: absolute;left: 1%;'>
+        <div class="c-bottom" style='top: 156px;width: 75%;position: absolute;left: 12.5%;'>
             <div class="list-title" style='top:-57px'>热帖排行榜</div>
             <div class="c-list"  style='top:-51px'>
                 <!-- head -->
@@ -18,12 +18,11 @@
                         </div>
                     </template>
                 </c-box>
-                <c-scroll class="c-list-main" style="height:1130px" ref="list" @add="scrollYEvent"
+                <c-scroll class="c-list-main" style="height:874px" ref="list" @add="scrollYEvent"
                     :state="isUpdateList">
                     <template v-slot:main>
                         <div>
-                            <div v-for="item in itemsData" :key="item.id" class="c-list-item"
-                                >
+                            <div v-for="item in itemsData" :key="item.id" class="c-list-item" style='height:45px'>
                                 <div class="c-list-text t-over" :style="listHead[0].style">
                                     {{item.comment}}
                                 </div>
@@ -61,6 +60,61 @@ export default {
             deviceTotals:[],
             leftState:1,
             itemsData: [
+                {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                 {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                 {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                {
+                    comment:"WIFI致癌",
+                    date: "2020年1月1日",
+                    reliability: "1%",
+                    result: "假",
+                    resource:"新浪微博"
+                },                 
                 {
                     comment:"WIFI致癌",
                     date: "2020年1月1日",

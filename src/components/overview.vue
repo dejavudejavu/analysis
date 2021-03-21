@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="charts"></div>                               
                             </div> -->
-                             <img :src="word"/>
+                             <img src="../../public/images/word.png"/>
                         </div>
                     </div>
                 </template>
@@ -92,14 +92,14 @@
 </template>
 
 <script scoped>
-import word from "../../public/images/word.png"
+// import word from "../../public/images/word.png"
 export default {
     data(){
         return {
             texts:{
                 title:'新冠'
             },
-            word,
+            // word,
             attackType:1,
             eventTotals:[],
             deviceTotals:[],

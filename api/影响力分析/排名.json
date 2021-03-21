@@ -1,0 +1,32 @@
+[
+    {
+        "comtent":"#创4时尚先生",//帖子的前六个字
+        "upper":"圈内少年",
+        "comment":"1000",
+        "thumbUp":"1273",
+        "rePost":"172",//转发数
+        "score":"89.7",
+        "platform":"微博",
+        "rank":"1"
+    },
+    {
+        "comtent":"#创4时尚先生",//帖子的前六个字
+        "upper":"圈内少年",
+        "comment":"1000",
+        "thumbUp":"1273",
+        "rePost":"172",//转发数
+        "score":"89.7",
+        "platform":"微博",
+        "rank":"2"
+    },
+    {
+        "comtent":"#创4时尚先生",//帖子的前六个字
+        "upper":"圈内少年",
+        "comment":"1000",
+        "thumbUp":"1273",
+        "rePost":"172",//转发数
+        "score":"89.7",
+        "platform":"微博",
+        "rank":"3"
+    }
+]

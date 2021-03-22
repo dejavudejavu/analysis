@@ -88,6 +88,7 @@
         </template>
       </c-box>
     </div>
+    <div class="test" style="height: 400px; width: 400px"></div>
   </div>
 </template>
 

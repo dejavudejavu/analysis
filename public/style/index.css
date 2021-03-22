@@ -58,7 +58,8 @@
 	display: inline-block;
 	/* min-height: 52px; */
 	min-width: 120px;
-	border: 1px solid rgba(132, 236, 255, 0.5);
+	/* border: 1px solid rgba(132, 236, 255, 0.5); */
+	box-shadow: 0 0px 1px 1px rgb(132, 236, 255, 50%);
 	/* margin: 10px; */
 }
 
@@ -164,14 +165,14 @@
 }
 
 .f-1 {
-    flex: 1;
-    display: inline-flex;
-    text-align: center;
-    position: relative;
-    left: 30px;
-    height: 54px;
-    /* margin-top: 0px; */
-    align-items: center;
+	flex: 1;
+	display: inline-flex;
+	text-align: center;
+	position: relative;
+	left: 30px;
+	height: 54px;
+	/* margin-top: 0px; */
+	align-items: center;
 }
 
 .text-over {
@@ -182,7 +183,7 @@
 
 .c-head-title {
 	position: relative;
-    flex: 0.8;
+	flex: 0.8;
 	width: auto;
 	height: 35px;
 	line-height: 42px;
@@ -196,13 +197,13 @@
 }
 
 .c-l-title {
-    background: url(../images/list-bg.png) 100% 100% no-repeat;
-    height: 27px;
-    line-height: 26px;
-    width: 99%;
-    margin-left: 1px;
-    margin-top: 1px;
-    text-align: center;
+	background: url(../images/list-bg.png) 100% 100% no-repeat;
+	height: 27px;
+	line-height: 26px;
+	width: 99%;
+	margin-left: 1px;
+	margin-top: 1px;
+	text-align: center;
 }
 
 .c-l-title>span {
@@ -227,8 +228,8 @@
 
 .c-l-item {
 	width: 207px;
-    height: 99px;
-    margin-bottom: 36px;
+	height: 99px;
+	margin-bottom: 36px;
 }
 
 .item-active div {
@@ -254,18 +255,20 @@
 }
 
 div.left {
-    width: 400px;
-    left: 20px;
-    position: absolute;
+	width: 400px;
+	left: 20px;
+	position: absolute;
 }
 
 .left-items {
 	width: 150px;
 }
-.link{
-    color: #afafaf;
-    text-decoration: underline;
+
+.link {
+	color: #afafaf;
+	text-decoration: underline;
 }
+
 .left-pie {
 	width: 250px;
 }
@@ -287,27 +290,27 @@ div.left {
 .left-tab>div.active {
 	color: #35FFDD
 }
-.list-title{
+
+.list-title {
 	font-size: 20px;
-    font-family: SourceHanSansCN-Bold, SourceHanSansCN;
-    font-weight: bold;
-    color: #ffffff;
-    line-height: 42px;
-    text-shadow: 0px 2px 10px rgb(0 216 255 / 78%);
-    position: relative;
+	font-family: SourceHanSansCN-Bold, SourceHanSansCN;
+	font-weight: bold;
+	color: #ffffff;
+	line-height: 42px;
+	text-shadow: 0px 2px 10px rgb(0 216 255 / 78%);
+	position: relative;
 	/* top: -57px; */
 	text-align: center;
 }
+
 div.right {
-    right: 20px;
-    position: absolute;
-    width: 416px;
+	right: 20px;
+	position: absolute;
+	width: 416px;
 }
 
 .c-r-box {
 	width: 100%;
-	margin-top: 10px;
-	margin-bottom: 10px;
 }
 
 .c-r-box1 {
@@ -321,27 +324,54 @@ div.right {
 
 .c-r-title {
 	height: 28px;
-    line-height: 28px;
-    margin-top: 2px;
-    width: 100%;
-	color:white;
-    margin-left: 0%;
-    background: url(../images/chartbg_副本.png);
-    background-size: auto 100%;
-    background-position: left center;
+	line-height: 28px;
+	margin-top: 2px;
+	width: 100%;
+	color: white;
+	margin-left: 0%;
+	background: url(../images/chartbg_副本.png);
+	background-size: auto 100%;
+	background-position: left center;
 }
 
 .c-mains {
 	position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+	top: 102px;
+	bottom: 15px;
+	left: 10px;
+	right: 10px;
+}
+
+.c-m-box-item {
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+.c-m-box {
+	display: flex;
+}
+
+.c-m-flex {
+	height: 100%;
+	position: relative;
+}
+
+.c-m-flex-1 {
+	flex: 1;
+}
+
+.c-m-flex-2 {
+	flex: 2;
+}
+
+.c-m-flex-3 {
+	flex: 3;
 }
 
 .c-r-main {
 	position: absolute;
-	top: 32px;
+	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
@@ -353,17 +383,17 @@ div.right {
 }
 
 div.c-main-bottom {
-    top: 380px;
-    position: absolute;
-    left: 20px;
-    right: 20px;
-    height: 260px;
+	top: 380px;
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	height: 260px;
 }
 
 .c-list {
 	position: relative;
-    height: 250px;
-    top: -36px;
+	height: 250px;
+	top: -36px;
 }
 
 .t-over {
@@ -457,15 +487,19 @@ div.c-main-bottom {
 }
 
 .tab-main {
-	height: 238px;
 	width: 100%;
 	margin: 0;
+	position: absolute;
+	top: 33px;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 .text {
-    text-align: left;
-    margin-top: 1px;
-    margin-left: 2px;
+	text-align: left;
+	margin-top: 1px;
+	margin-left: 2px;
 }
 
 .text>div {
@@ -473,9 +507,9 @@ div.c-main-bottom {
 }
 
 .word-font {
-    font-size: 20px;
-    font-weight: 580;
-    color: #06accd;
+	font-size: 20px;
+	font-weight: 580;
+	color: #06accd;
 }
 
 .num-font {
@@ -517,18 +551,33 @@ div.c-main-bottom {
 .attck-alert {
 	width: 300px;
 	height: 200px;
-	position: fixed;	
+	position: fixed;
 	right: 15px;
 	bottom: -350px;
-	background:rgba(22, 68, 85, 0.8);
-	
+	background: rgba(22, 68, 85, 0.8);
+
 }
-.attack-full{
+
+.attack-full {
 	position: absolute;
-	width:100%;
+	width: 100%;
 	height: 100%;
 }
-.attack-alert-text{
+
+.attack-alert-text {
 	position: relative;
-	padding:10px;
+	padding: 10px;
+}
+
+.full-box {
+	position: absolute;
+	width: 100%;
+	top: 34px;
+	bottom: 0;
+}
+
+.color-title{
+	position: relative;
+	color: #fff;
+	text-indent: 12px;
 }

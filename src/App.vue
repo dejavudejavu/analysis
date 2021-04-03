@@ -5,11 +5,11 @@
         <div class="index-main">
           <div class="head-pic"></div>
           <!-- head -->
-          <div class="c-head">
+          <div class="c-head" style='overflow: initial;'>
             <!-- 左侧 -->
             <div class="c-head-left c-head-flex">
               <!-- 时间 -->
-              <div class="num-font c-head-time">2020-02-02 22:24:12</div>
+              <div class="num-font c-head-time">{{time}}</div>
               <!-- 总览 -->
               <div class="f-1" @click="handleClick(0)">
                 <div class="head-icon i-b">
@@ -30,7 +30,7 @@
               </div>
             </div>
             <!-- 中间标题 -->
-            <div class="c-head-title">
+            <div class="c-head-title" style='height: 60px;line-height: 60px; font-size: 50px;padding-top: 8px;'>
               {{ texts.title }}
             </div>
             <!-- 右侧 -->
@@ -76,19 +76,6 @@
         </div>
       </template>
     </c-scroll>
-    <div class="attck-alert">
-      <!-- 提示 -->
-      <!-- 业务系统安全事件 -->
-      <c-box class="attack-full">
-        <template v-slot:main>
-          <div class="c-r-title">提示</div>
-          <div class="attack-alert-text">
-            {{ alertTextContent }}
-          </div>
-        </template>
-      </c-box>
-    </div>
-    <div class="test" style="height: 400px; width: 400px"></div>
   </div>
 </template>
 
@@ -103,6 +90,8 @@ import Emotiom  from './components/emotion'
 import Effect  from './components/effect'
 import Rumor from "./components/rumor";
 import Spread  from './components/spread'
+import dayjs from 'dayjs'
+
 
 export default {
   name: "App",
@@ -115,6 +104,7 @@ export default {
   },
   data() {
     return {
+      time:'',
       alertTextContent: "警告",
       overview,
       texts: {
@@ -125,9 +115,7 @@ export default {
           title: "总览",
           id: 0,
           imgPath: overview
-,
         },
-
         {
           title: "传播分析",
           id: 1,
@@ -153,14 +141,16 @@ export default {
       selected: 0,
     };
   },
-
-
-
   methods:{
       handleClick(index) {
           this.selected=index
            console.log(this.selected);
-      }
+      },
+  },
+  created(){
+    setInterval(()=>{
+      this.time = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    }, 1000);
   }
 };
 </script>

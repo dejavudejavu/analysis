@@ -4,8 +4,8 @@
             <c-box style="width: 100%; height: 100%">
                 <template v-slot:main>
                     <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center" class="color-title">
-                            传播途径
+                        <div style="text-align: center"  class="c-l-title">
+                            <span>谣言量变化趋势</span>
                         </div>
                     </div>
 
@@ -17,8 +17,12 @@
             <c-box style="width: 100%; height: 49%">
                 <template v-slot:main>
                     <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center" class="color-title">
-                            谣言高频词
+                        <img
+                            src="../../public/images/chartbg_head.png"
+                            style="float: left; margin-top: 2px"
+                        />                             
+                        <div style="text-align: center"  class="color-title">
+                             谣言高频词                            
                         </div>
                     </div>
                     <div class="full-box" id="chart1"></div>
@@ -27,6 +31,10 @@
             <c-box style="width: 100%; height: 49%; margin-top:2%">
                 <template v-slot:main>
                     <div class="c-list-head headtext" style="padding-left: 0">
+                        <img
+                            src="../../public/images/chartbg_head.png"
+                            style="float: left; margin-top: 2px"
+                        />                             
                         <div style="text-align: center" class="color-title">
                             提及主体
                         </div>
@@ -35,60 +43,6 @@
                 </template>
             </c-box> 
         </div>
-
-        <!-- 左侧 -->
-        <!-- <div class="left" style="left: 220px">
-            <div class="d-i left-items" v-if="leftState == 1">
-                <c-box
-                    class="c-l-item bottom"
-                    v-for="item in leftData"
-                    :key="item.name"
-                    style="height: 938px; width: 946px"
-                >
-                    <template v-slot:main>
-                        <div
-                            class="c-l-title"
-                            style="background-size: cover; width: 100%"
-                        >
-                            <span>
-                                {{ item.name }}
-                            </span>
-                        </div>
-                        <div
-                            style="width: 400px; height: 400px"
-                            id="chart0"
-                        ></div>
-                    </template>
-                </c-box>
-            </div>
-        </div> -->
-
-        <!-- 右侧 -->
-        <!-- <div class="right" style="width: 501px; right: 220px">
-          
-            <c-box class="c-r-box c-r-box1 rightpart">
-                <template v-slot:main>
-                    <img
-                        src="../../public/images/chartbg_head.png"
-                        style="float: left; margin-top: 2px"
-                    />
-                    <div class="c-r-title">谣言高频词</div>
-                    <div style="width: 200px; height: 200px" id="chart1"></div>
-                </template>
-            </c-box>
-            <c-box class="c-r-box c-r-box1 rightpart">
-                <template v-slot:main>
-                    <img
-                        src="../../public/images/chartbg_head.png"
-                        style="float: left; margin-top: 2px"
-                    />
-                    <div class="c-r-title">提及主体</div>
-                    <div style="width: 200px; height: 200px" id="chart2"></div>
-                </template>
-            </c-box> 
-        </div> -->
-        <!-- 下侧 -->
-        <!-- 中间 -->
     </div>
 </template>
 
@@ -122,71 +76,105 @@ export default {
             var chartDom = document.getElementById("chart0");
             var myChart = this.$echarts.init(chartDom);
             var option;
-
-            var base = +new Date(1988, 9, 3);
-            var oneDay = 24 * 3600 * 1000;
-
-            var data = [[base, Math.random() * 300]];
-
-            for (var i = 1; i < 20000; i++) {
-                var now = new Date((base += oneDay));
-                data.push([
-                    [now.getFullYear(), now.getMonth() + 1, now.getDate()].join(
-                        "/"
-                    ),
-                    Math.round((Math.random() - 0.5) * 20 + data[i - 1][1]),
-                ]);
-            }
-
             option = {
+                textStyle:{
+                    fontSize:16,
+                    color:'white'
+                },                
+                grid: {
+                    left: "3%",
+                    right: "4%",
+                    bottom: "3%",
+                    containLabel: true,
+                },                  
                 tooltip: {
-                    trigger: "axis",
-                    position: function (pt) {
-                        return [pt[0], "10%"];
-                    },
+                    trigger: 'axis'
                 },
-                title: {
-                    left: "center",
-                    text: "大数据量面积图",
+                legend: {
+                    data: ['最高气温', '最低气温'],
+                    left:'left',
+                    textStyle: {
+                        color: 'white'
+                    }                        
                 },
                 toolbox: {
+                    show: true,
                     feature: {
                         dataZoom: {
-                            yAxisIndex: "none",
+                            yAxisIndex: 'none'
                         },
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
                         restore: {},
-                        saveAsImage: {},
-                    },
+                        saveAsImage: {}
+                    }
                 },
                 xAxis: {
-                    type: "time",
+                    type: 'category',
                     boundaryGap: false,
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    itemStyle: {
+                        fontSize:20
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            fontSize:20
+                        }
+                    }                    
                 },
                 yAxis: {
-                    type: "value",
-                    boundaryGap: [0, "100%"],
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} °C',
+                        fontSize:20
+                    },                    
                 },
-                dataZoom: [
-                    {
-                        type: "inside",
-                        start: 0,
-                        end: 20,
-                    },
-                    {
-                        start: 0,
-                        end: 20,
-                    },
-                ],
                 series: [
                     {
-                        name: "模拟数据",
-                        type: "line",
-                        smooth: true,
-                        symbol: "none",
-                        areaStyle: {},
-                        data: data,
+                        name: '最高气温',
+                        type: 'line',
+                        data: [10, 11, 13, 11, 12, 12, 9],
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
                     },
-                ],
+                    {
+                        name: '最低气温',
+                        type: 'line',
+                        data: [1, -2, 2, 5, 3, 2, 0],
+                        markPoint: {
+                            data: [
+                                {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'},
+                                [{
+                                    symbol: 'none',
+                                    x: '90%',
+                                    yAxis: 'max'
+                                }, {
+                                    symbol: 'circle',
+                                    label: {
+                                        position: 'start',
+                                        formatter: '最大值'
+                                    },
+                                    type: 'max',
+                                    name: '最高点'
+                                }]
+                            ]
+                        }
+                    }
+                ]
             };
 
             option && myChart.setOption(option);
@@ -196,7 +184,17 @@ export default {
             var myChart = this.$echarts.init(chartDom);
             var option;
 
-            option = {
+            option = {              
+                textStyle:{
+                    fontSize:16,
+                    color:'white'
+                },                
+                grid: {
+                    left: "3%",
+                    right: "4%",
+                    bottom: "3%",
+                    containLabel: true,
+                },                
                 xAxis: {
                     type: "category",
                     data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -206,6 +204,9 @@ export default {
                 },
                 series: [
                     {
+                        itemStyle: {
+                            color:'#70DFDF'
+                        },                          
                         data: [120, 200, 150, 80, 70, 110, 130],
                         type: "bar",
                         showBackground: true,
@@ -223,7 +224,17 @@ export default {
             var myChart = this.$echarts.init(chartDom);
             var option;
 
-            option = {
+            option = {             
+                textStyle:{
+                    fontSize:16,
+                    color:'white'
+                },                
+                grid: {
+                    left: "3%",
+                    right: "4%",
+                    bottom: "3%",
+                    containLabel: true,
+                },                
                 xAxis: {
                     type: "category",
                     data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -231,8 +242,11 @@ export default {
                 yAxis: {
                     type: "value",
                 },
-                series: [
+                series: [                    
                     {
+                        itemStyle: {
+                            color:'#FFC66E'
+                        },                           
                         data: [120, 200, 150, 80, 70, 110, 130],
                         type: "bar",
                         showBackground: true,

@@ -45,7 +45,7 @@
                             style="float: left; margin-top: 2px"
                         />
                         <div class="c-r-title">疫情概述</div>
-                        <div style="color: white; margin: 19px">
+                        <div style="color: white; margin: 30px; letter-spacing: 1px;line-height: 1.5;">
                             {{ content }}
                             <a
                                 href="http://www.nhc.gov.cn/xcs/yqfkdt/gzbd_index.shtml"
@@ -56,10 +56,11 @@
                         <div
                             style="
                                 color: white;
-                                margin: 0 119px;
-                                margin-top: 16px;
+                                margin: 25px 119px;
                                 font-family: fangsong;
-                                font-size: 17px;
+                                font-size: 21px;
+                                line-height: 2;
+                                position: relative;
                             "
                         >
                             {{ saying }}
@@ -81,7 +82,7 @@
                         <template v-slot:main>
                             <!--舆情情感 -->
                             <div class="">
-                                <div id="pies" class="pie-items"></div>
+                                <div id="pies" class="pie-items" ></div>
                             </div>
                         </template>
                     </c-box>
@@ -99,8 +100,8 @@
                         <template v-slot:main>
                             <!-- 谣言分析 -->
                             <div class="">
-                                <div id="pies1" class="pie-items">
-                                    <img src="../../public/images/word.png" />
+                                <div id="pies1" class="pie-items" style='padding:5px'>
+                                    <img src="../../public/images/word.png"  style='width:100%'/>
                                 </div>
                             </div>
                         </template>
@@ -109,7 +110,6 @@
             </div>
         </div>
         <!-- 下侧 -->
-        <div class="c-main-bottom"></div>
         <!-- 中间 -->
     </div>
 </template>
@@ -157,12 +157,16 @@ export default {
     },
     mounted() {
         console.log(this.$echarts);
-        this.heat();
+        this.heat();   
     },
     methods: {
         heat() {
             var chart0 = this.$echarts.init(document.getElementById("pies"));
             var option = {
+                textStyle:{
+                    fontSize:16,
+                    color:'white'
+                },                   
                 title: {
                     // text: '堆叠区域图'
                 },
@@ -202,11 +206,21 @@ export default {
                             "周六",
                             "周日",
                         ],
+                        axisLabel: {
+                            textStyle: {
+                                fontSize:20
+                            }
+                        }                          
                     },
                 ],
                 yAxis: [
                     {
                         type: "value",
+                        axisLabel: {
+                            textStyle: {
+                                fontSize:20
+                            }
+                        }                          
                     },
                 ],
                 series: [

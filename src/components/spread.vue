@@ -2,39 +2,73 @@
     <div class="c-mains c-m-box" style="top: 112px">
         <div class="c-m-flex-2 c-m-flex;" style="margin-right: 30px">
             <c-box style="width: 100%; height: 100%">
-                <template v-slot:main>
+                <template v-slot:main >
+                <div  style='display: flex;height: 100%; flex-direction: column;'>
                     <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center"   class="color-title">传播途径</div>
+                        <div style="text-align: center"   class="c-l-title"><span>传播途径</span></div>
                     </div>
                     <div
                         class="c-list-text t-over"
                         style="height: 100%"
                         id="chart1"
-                    ></div>
+                    ></div>                
+                </div>
+
                 </template>
             </c-box>
         </div>
-        <div class="c-m-flex-1 c-m-flex">
-            <c-box style="width: 100%; height: 35.66%">
+        <div class="c-m-flex-1 c-m-flex" style='display:flex;flex-direction:column'>
+            <c-box style="width: 100%; height: 35.66%;flex:1">
                 <template v-slot:main>
-                    <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center"   class="color-title">转发热度</div>
+                    <div class="c-list-head headtext" style="padding-left: 0;flex:1">
+                        <img
+                            src="../../public/images/chartbg_head.png"
+                            style="float: left; margin-top: 2px"
+                        />
+                        <div style="text-align: center;text-indent:0"   class="color-title">热点新闻</div>
                     </div>
-                    <div id="zhuanfa" class="full-box"></div>
+                    <div  class="full-box">
+                        <div style='display: flex;flex-direction: column;height: 100%;'>
+                            <div v-for="(item,index) in news" :key="index" class="c-list-item" style="display:flex;flex:1" @click='handleClick(index)'  @mouseover="hover = index"  @mouseleave="hover = -1" :class="{'hoverStyle':hover==index&&clk!=index,'clkStyle':clk==index} ">
+                              
+                                <div class="c-list-text t-over listItem" style ='flex:1'>
+                                    <el-avatar size="38" :src="item.avatar" style='position: relative;top: 50%;transform: translate(0, -50%);'></el-avatar>
+                                </div>                                
+                                <div class="c-list-text t-over listItem" style ='flex:10;color:white'>
+                                        <span class='t-over' style='position: absolute; top: 50%;transform: translate(0, -50%);width:100%'>{{ item.content }}  </span>                                 
+                                </div>
+                                <div class="c-list-text t-over listItem" style ='flex:1.5;' >
+                                    <a
+                                        :href="item.url"
+                                        style="color: aquamarine;position: absolute; top: 50%;transform: translate(0, -50%);"
+                                    >详情>></a>    
+                                </div>                                   
+                    
+                            </div>
+                        </div>                    
+                    </div>
                 </template>
             </c-box>
-            <c-box style="width: 100%; height: 30%; margin-top: 3.33%">
+            <c-box style="width: 100%; height: 30%; margin-top: 3.33%;flex:1">
                 <template v-slot:main>
                     <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center"   class="color-title">层级分析-1</div>
+                        <img
+                            src="../../public/images/chartbg_head.png"
+                            style="float: left; margin-top: 2px"
+                        />                        
+                        <div style="text-align: center;text-indent:0"   class="color-title">转发热度</div>
                     </div>
                     <div id="chart2" class="full-box"></div>
                 </template>
             </c-box>
-            <c-box style="width: 100%; height: 30%; margin-top: 3.33%">
+            <c-box style="width: 100%; height: 30%; margin-top: 3.33%;flex:1">
                 <template v-slot:main>
                     <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center"   class="color-title">层级分析-2</div>
+                        <img
+                            src="../../public/images/chartbg_head.png"
+                            style="float: left; margin-top: 2px"
+                        />                        
+                        <div style="text-align: center;text-indent:0"   class="color-title">层级分析</div>
                     </div>
                     <div id="chart3" class="full-box"></div>
                 </template>
@@ -44,12 +78,17 @@
 </template>
 
 <script>
-import $ from "jquery";
+// import $ from "jquery";
 export default {
     data() {
         return {
+            clk:0,
+            hover:-1,
+            hoverStyle:'hoverStyle',
+            clkStyle:'clkStyle',
             isUpdateList: true,
             leftState: 1,
+            news:[],
             listHead: [
                 {
                     name: "传播途径",
@@ -70,135 +109,123 @@ export default {
         };
     },
     mounted() {
+        this.getNews();        
         this.zhuanfa();
-        this.guanxi();
         this.bili();
-        this.cishu();
+        this.guanxi(0);
     },
     methods: {
-        scrollYEvent() {},
-        zhuanfa() {
-            var chart0 = this.$echarts.init(document.getElementById("zhuanfa"));
-            var base = +new Date(1968, 9, 3);
-            var oneDay = 24 * 3600 * 1000;
-            var date = [];
-            var data = [Math.random() * 300];
-
-            for (var i = 1; i < 20000; i++) {
-                var now = new Date((base += oneDay));
-                date.push(
-                    [now.getFullYear(), now.getMonth() + 1, now.getDate()].join(
-                        "/"
-                    )
-                );
-                data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
-            }
-
-            var option = {
-                tooltip: {
-                    // trigger: 'axis',
-                    // position: function (pt) {
-                    //     return [pt[0], '10%'];
-                    // }
-                },
-                title: {
-                    // left: 'center',
-                    // text: '大数据量面积图',
-                },
-                toolbox: {
-                    feature: {
-                        dataZoom: {
-                            yAxisIndex: "none",
-                        },
-                        restore: {},
-                        saveAsImage: {},
-                    },
-                },
-                xAxis: {
-                    type: "category",
-                    boundaryGap: false,
-                    data: date,
-                },
-                yAxis: {
-                    type: "value",
-                    boundaryGap: [0, "100%"],
-                },
-                dataZoom: [
-                    {
-                        type: "inside",
-                        start: 0,
-                        end: 10,
-                    },
-                    {
-                        start: 0,
-                        end: 10,
-                    },
-                ],
-                series: [
-                    {
-                        name: "模拟数据",
-                        type: "line",
-                        symbol: "none",
-                        sampling: "lttb",
-                        itemStyle: {
-                            color: "rgb(255, 70, 131)",
-                        },
-                        areaStyle: {
-                            color: new this.$echarts.graphic.LinearGradient(
-                                0,
-                                0,
-                                0,
-                                1,
-                                [
-                                    {
-                                        offset: 0,
-                                        color: "rgb(255, 158, 68)",
-                                    },
-                                    {
-                                        offset: 1,
-                                        color: "rgb(255, 70, 131)",
-                                    },
-                                ]
-                            ),
-                        },
-                        data: data,
-                    },
-                ],
-            };
-            option && chart0.setOption(option);
+        handleClick(index) {
+            this.clk=index
+            this.guanxi(index);
         },
-        guanxi() {
-            var ROOT_PATH =
-                "https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples";
+        scrollYEvent() {},
+        //转发次数和时间折线图
+        zhuanfa() {
+            var chart0 = this.$echarts.init(document.getElementById("chart2"))
+            this.axios.get('http://159.75.23.139:3000/repostSum.json').then((res)=>{
+                var data=res.data
+                var option = {
+                    textStyle:{
+                        fontSize:16,
+                        color:'white'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: data.Date,                        
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value} 次'
+                        }
+                    },
+                    grid:{
+                        top:25,
+                        bottom:20,
+                        right:50
+                    },
+                    series: [
+                        {
+                            name: '转发次数',
+                            type: 'line',
+                            data: data.data,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                    ]
+                }; 
+                option && chart0.setOption(option);                               
+            })
 
+
+        },
+        //转发关系图
+        guanxi(index) {
             var chartDom = document.getElementById("chart1");
             var myChart = this.$echarts.init(chartDom);
             var option;
 
             myChart.showLoading();
-            $.getJSON(
-                ROOT_PATH + "/data/asset/data/les-miserables.json",
-                function (graph) {
-                    myChart.hideLoading();
-                    console.log(graph);
+            // this.axios.get('http://159.75.23.139:3000/1.json').then((res)=>{
+            //     var data=res.data
+            //     console.log(data)
+            
+            // }).catch((err)=>{
+            //     console.log(err)
+            // })
 
-                    option = {
+            this.axios.get('http://159.75.23.139:3000/newsSpread'+index+'.json').then((res)=>{
+                    myChart.hideLoading();
+                    console.log(res.data);
+                    var links=res.data.links
+                    var nodes=res.data.nodes
+                    var sourceItem={
+                        id:index,
+                        name:this.news[index].content,
+                        url:this.news[index].url,
+                        category:'',
+                        symbolSize:'40',
+                        itemStyle:{
+                            color:'#C74F77'
+                        }
+                    }
+                    nodes.push(sourceItem);                 
+                    option = {                     
                         tooltip: {},
-                        legend: [
-                            {
-                                data: graph.categories.map(function (a) {
-                                    return a.name;
-                                }),
-                            },
-                        ],
+                        // color: ["#003366", "#006699", "#4cabce", "#e5323e"],
+                        // legend: [
+                        //     {
+                        //         data: ['total', 'dfs_used','non_dfs_used'],
+                        //     },
+                        // ],
                         series: [
                             {
-                                name: "Les Miserables",
+                                textStyle:{
+                                    fontSize:16,
+                                    color:'white'
+                                },                                  
+                                // name: "Les Miserables",
                                 type: "graph",
-                                layout: "none",
-                                data: graph.nodes,
-                                links: graph.links,
-                                categories: graph.categories,
+                                layout: "force",
+                                data: nodes,
+                                links:links,
+                                draggable: true,
+                                zoom:0.8,
+                                // categories: categories,
                                 roam: true,
                                 label: {
                                     show: true,
@@ -209,8 +236,8 @@ export default {
                                     hideOverlap: true,
                                 },
                                 scaleLimit: {
-                                    min: 0.4,
-                                    max: 2,
+                                    min: 0.01,
+                                    max: 5,
                                 },
                                 lineStyle: {
                                     color: "source",
@@ -219,132 +246,82 @@ export default {
                             },
                         ],
                     };
-
-                    myChart.setOption(option);
+                    myChart.setOption(option);             
+                console.log(res)
+            }).catch((err)=>{
+                console.log(err)
+            })
+            option && myChart.setOption(option);
+            myChart.on('click', (params)=>{
+                console.log(params)
+                var data=params.data
+                if(data.url!=undefined){
+                     window.open(params.data.url) 
                 }
-            );
-
-            option && myChart.setOption(option);
+            })
         },
+        //比例饼图
         bili() {
-            var chartDom = document.getElementById("chart2");
-            var myChart = this.$echarts.init(chartDom);
-            var option;
-
-            option = {
-                title: {
-                    // text: '南丁格尔玫瑰图',
-                    // subtext: '纯属虚构',
-                    // left: 'center'
-                },
-                tooltip: {
-                    trigger: "item",
-                    formatter: "{a} <br/>{b} : {c} ({d}%)",
-                },
-                legend: {
-                    left: "center",
-                    top: "bottom",
-                    data: [
-                        "rose1",
-                        "rose2",
-                        "rose3",
-                        "rose4",
-                        "rose5",
-                        "rose6",
-                        "rose7",
-                        "rose8",
-                    ],
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: { show: true },
-                        dataView: { show: true, readOnly: false },
-                        restore: { show: true },
-                        saveAsImage: { show: true },
-                    },
-                },
-                series: [
-                    {
-                        name: "半径模式",
-                        type: "pie",
-                        radius: [20, 140],
-                        center: ["25%", "50%"],
-                        roseType: "radius",
-                        itemStyle: {
-                            borderRadius: 5,
-                        },
-                        label: {
-                            show: false,
-                        },
-                        emphasis: {
-                            label: {
-                                show: true,
-                            },
-                        },
-                        data: [
-                            { value: 40, name: "rose 1" },
-                            { value: 33, name: "rose 2" },
-                            { value: 28, name: "rose 3" },
-                            { value: 22, name: "rose 4" },
-                            { value: 20, name: "rose 5" },
-                            { value: 15, name: "rose 6" },
-                            { value: 12, name: "rose 7" },
-                            { value: 10, name: "rose 8" },
-                        ],
-                    },
-                    {
-                        name: "面积模式",
-                        type: "pie",
-                        radius: [20, 140],
-                        center: ["75%", "50%"],
-                        roseType: "area",
-                        itemStyle: {
-                            borderRadius: 5,
-                        },
-                        data: [
-                            { value: 30, name: "rose 1" },
-                            { value: 28, name: "rose 2" },
-                            { value: 26, name: "rose 3" },
-                            { value: 24, name: "rose 4" },
-                            { value: 22, name: "rose 5" },
-                            { value: 20, name: "rose 6" },
-                            { value: 18, name: "rose 7" },
-                            { value: 16, name: "rose 8" },
-                        ],
-                    },
-                ],
-            };
-
-            option && myChart.setOption(option);
-        },
-        cishu() {
             var chartDom = document.getElementById("chart3");
             var myChart = this.$echarts.init(chartDom);
             var option;
-
+            this.axios.get('http://159.75.23.139:3000/level.json').then((res)=>{
+            var data = res.data;
+            var names=['','第一层','第二层','第三层','第四层','第五层','第六层',]
+            var value=[]
+            for(var i=1;i<=6;i++){
+                var item={
+                    value:data[i],
+                    name:names[i]
+                }
+                value.push(item)
+            }            
             option = {
-                xAxis: {
-                    type: "category",
-                    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                legend: {
+                    orient:'vertical',
+                    right:'right',
+                    top:'middle',
+                    textStyle: {
+                        color: 'white'
+                    }                    
                 },
-                yAxis: {
-                    type: "value",
-                },
+                tooltip: {
+                    trigger: 'item'
+                },                
+                // toolbox: {
+                //     show: true,
+                //     feature: {
+                //         mark: {show: true},
+                //         dataView: {show: true, readOnly: false},
+                //         restore: {show: true},
+                //         saveAsImage: {show: true}
+                //     }
+                // },
                 series: [
                     {
-                        data: [120, 200, 150, 80, 70, 110, 130],
-                        type: "bar",
-                        showBackground: true,
-                        backgroundStyle: {
-                            color: "rgba(180, 180, 180, 0.2)",
+                        name: '转发层级',
+                        type: 'pie',
+                        radius: [10, 100],
+                        center: ['50%', '50%'],
+                        roseType: 'area',
+                        itemStyle: {
+                            borderRadius: 8
                         },
-                    },
-                ],
-            };
+                        data: value
+                    }
+                ]
+            };       
+            option && myChart.setOption(option);                     
+            })
 
-            option && myChart.setOption(option);
+
         },
+        //获取热点新闻
+        getNews(){
+            this.axios.get('http://159.75.23.139:3000/hotNews.json').then((res)=>{
+                this.news=res.data
+            })
+        }
     },
 };
 </script>
@@ -356,5 +333,11 @@ export default {
 .bottom {
     margin-bottom: 0 !important;
     height: 117px;
+}
+.hoverStyle{
+    background:darkgray;
+}
+.clkStyle{
+    background:darkseagreen;
 }
 </style>

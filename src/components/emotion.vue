@@ -4,104 +4,39 @@
             <c-box style="width: 100%; height: 100%">
                 <template v-slot:main>
                     <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center" class="color-title">传播途径</div>
+                        <div style="text-align: center"  class="c-l-title"><span>词汇情感</span></div>
                     </div>
                     <div id="emoPie" class="full-box"></div>
                 </template>
             </c-box>
         </div>
-        <div class="c-m-flex-1 c-m-flex">
+        <div class="c-m-flex-1 c-m-flex" style='display:flex;flex-direction:column'>
             <c-box
-              
-                style="width: 100%; height: 33.33%"
-                v-for="item in leftData"
+                v-for="(item,index) in leftData"
                 :key="item.name"
+                class='lbx'
+                :class="{'no-margin':index===2}"
             >
                 <template v-slot:main>
                     <div class="c-list-head headtext" style="padding-left: 0">
+                        <img
+                            src="../../public/images/chartbg_head.png"
+                            style="float: left; margin-top: 2px"
+                        />                        
                         <div style="text-align: center"   class="color-title">{{ item.name }}</div>
                     </div>
-                    <img :src="word" class="imgStyle" />
-                </template>
-            </c-box>
-            <c-box style="width: 100%; height: 35.66%">
-                <template v-slot:main>
-                    <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center">转发热度</div>
-                    </div>
-                </template>
-            </c-box>
-            <c-box style="width: 100%; height: 30%; margin-top: 3.33%">
-                <template v-slot:main>
-                    <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center">层级分析-1</div>
-                    </div>
-                </template>
-            </c-box>
-            <c-box style="width: 100%; height: 30%; margin-top: 3.33%">
-                <template v-slot:main>
-                    <div class="c-list-head headtext" style="padding-left: 0">
-                        <div style="text-align: center">层级分析-2</div>
+                    <div style='position: absolute;left: 0; right: 0; top:34px; bottom: 0; display: flex;padding: 5px;'>
+                        <!-- <img :src="word" style='width:412px;position: relative;left: 50%;transform: translate(-50%, 0px);'/>      -->
+                        <img :src="word" style='width:100%'/>                             
                     </div>
                 </template>
             </c-box>
         </div>
 
-        <!-- 左侧 -->
-        <div class="left" style="width: 836px; left: 220px" v-if="false">
-            <c-box
-                class="c-r-box c-r-box1"
-                style="margin-top: 0px; height: 938px"
-            >
-                <template v-slot:main>
-                    <img
-                        src="../../public/images/chartbg_head.png"
-                        style="float: left; margin-top: 2px"
-                    />
-                    <div class="c-r-title">情感值</div>
-                    <!-- <div id="emoPie" style="height: 400px; width: 400px"></div> -->
-                </template>
-            </c-box>
-        </div>
-
-        <!-- 右侧 -->
-        <div v-if="false" class="right" style="width: 627px; right: 220px">
-            <!-- 业务系统安全事件 -->
-            <div
-                class="d-i left-items"
-                v-if="leftState == 1"
-                style="width: 100%"
-            >
-                <c-box
-                    class="c-l-item bottom"
-                    v-for="item in leftData"
-                    :key="item.name"
-                >
-                    <template v-slot:main>
-                        <div
-                            class="c-l-title"
-                            style="background-size: cover; width: 100%"
-                        >
-                            <span>
-                                {{ item.name }}
-                            </span>
-                        </div>
-                        <!-- <div class="num-font c-l-num">
-                        {{item.value}}
-                    </div>
-                    <div></div> -->
-                        <img :src="word" class="imgStyle" />
-                    </template>
-                </c-box>
-            </div>
-        </div>
-        <!-- 下侧 -->
-        <div class="c-main-bottom"></div>
-        <!-- 中间 -->
     </div>
 </template>
 
-<script scoped>
+<script>
 import word from "../../public/images/word.png";
 export default {
     data() {
@@ -143,42 +78,66 @@ export default {
             var option;
 
             option = {
-                legend: {
-                    top: "bottom",
+                // backgroundColor: '#2c343c',
+
+                // title: {
+                //     text: 'Customized Pie',
+                //     left: 'center',
+                //     top: 20,
+                //     textStyle: {
+                //         color: '#ccc'
+                //     }
+                // },
+
+                tooltip: {
+                    trigger: 'item'
                 },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: { show: true },
-                        dataView: { show: true, readOnly: false },
-                        restore: { show: true },
-                        saveAsImage: { show: true },
-                    },
+
+                visualMap: {
+                    show: false,
+                    min: 80,
+                    max: 600,
+                    inRange: {
+                        colorLightness: [0, 1]
+                    }
                 },
                 series: [
                     {
-                        name: "面积模式",
-                        type: "pie",
-                        radius: [50, 250],
-                        center: ["50%", "50%"],
-                        roseType: "area",
-                        itemStyle: {
-                            borderRadius: 8,
-                        },
+                        name: '词汇情感统计',
+                        type: 'pie',
+                        radius: '90%',
+                        center: ['50%', '50%'],
                         data: [
-                            { value: 40, name: "rose 1" },
-                            { value: 38, name: "rose 2" },
-                            { value: 32, name: "rose 3" },
-                            { value: 30, name: "rose 4" },
-                            { value: 28, name: "rose 5" },
-                            { value: 26, name: "rose 6" },
-                            { value: 22, name: "rose 7" },
-                            { value: 18, name: "rose 8" },
-                        ],
-                    },
-                ],
+                            {value: 335, name: '正向词汇',itemStyle:{color:'#E63946'}},
+                            {value: 310, name: '负向词汇',itemStyle:{color:'#457B9D'}},
+                            {value: 274, name: '中性词汇',itemStyle:{color:'#F1FAEE'}},
+                        ].sort(function (a, b) { return a.value - b.value; }),
+                        roseType: 'radius',
+                        label: {
+                            color: 'white',
+                            fontSize :20,
+                        },
+                        labelLine: {
+                            lineStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)',
+                            },
+                            smooth: 0.2,
+                            length: 10,
+                            length2: 20
+                        },
+                        itemStyle: {
+                            color: '#c23531',
+                            shadowBlur: 200,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        },
+                        animationType: 'scale',
+                        animationEasing: 'elasticOut',
+                        // animationDelay: function (idx) {
+                        //     return Math.random() * 200;
+                        // }
+                    }
+                ]
             };
-
             option && myChart.setOption(option);
         },
     },
@@ -191,7 +150,11 @@ export default {
     height: 305.6px;
     width: 100%;
 }
-.imgStyle {
-    height: 80%;
+.lbx{
+    flex:1;
+    margin-bottom:10px;
+}
+.no-margin{
+    margin:0
 }
 </style>

@@ -8,7 +8,6 @@
                             <span>谣言量变化趋势</span>
                         </div>
                     </div>
-
                     <div class="full-box" id="chart0"></div>
                 </template>
             </c-box>
@@ -36,10 +35,14 @@
                             style="float: left; margin-top: 2px"
                         />                             
                         <div style="text-align: center" class="color-title">
-                            提及主体
+                            谣言词云图
                         </div>
                     </div>
-                     <div class="full-box" id="chart2"></div>
+                    <div class="full-box">
+                        <div id="pies1" class="pie-items" style='padding:5px'>
+                            <img src="http://159.75.23.139:3000/rumor.png"  style='width:100%'/>
+                        </div>                         
+                    </div>                                       
                 </template>
             </c-box> 
         </div>
@@ -72,193 +75,181 @@ export default {
         this.gaopin();
     },
     methods: {
+        //谣言量变化趋势
         yaoyan() {
             var chartDom = document.getElementById("chart0");
             var myChart = this.$echarts.init(chartDom);
             var option;
-            option = {
-                textStyle:{
-                    fontSize:16,
-                    color:'white'
-                },                
-                grid: {
-                    left: "3%",
-                    right: "4%",
-                    bottom: "3%",
-                    containLabel: true,
-                },                  
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data: ['最高气温', '最低气温'],
-                    left:'left',
-                    textStyle: {
-                        color: 'white'
-                    }                        
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        dataZoom: {
-                            yAxisIndex: 'none'
-                        },
-                        dataView: {readOnly: false},
-                        magicType: {type: ['line', 'bar']},
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-                    itemStyle: {
-                        fontSize:20
+            this.axios.get('http://159.75.23.139:3000/rumorNum.json').then((res)=>{  
+                var data=res.data
+                option = {
+                    textStyle:{
+                        fontSize:16,
+                        color:'white'
+                    },                
+                    grid: {
+                        left: "3%",
+                        right: "4%",
+                        bottom: "3%",
+                        containLabel: true,
+                    },                  
+                    tooltip: {
+                        trigger: 'axis'
                     },
-                    axisLabel: {
-                        textStyle: {
+                    // legend: {
+                    //     data: ['最高气温', '最低气温'],
+                    //     left:'left',
+                    //     textStyle: {
+                    //         color: 'white'
+                    //     }                        
+                    // },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: data.date,
+                        itemStyle: {
                             fontSize:20
-                        }
-                    }                    
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: '{value} °C',
-                        fontSize:20
-                    },                    
-                },
-                series: [
-                    {
-                        name: '最高气温',
-                        type: 'line',
-                        data: [10, 11, 13, 11, 12, 12, 9],
-                        markPoint: {
-                            data: [
-                                {type: 'max', name: '最大值'},
-                                {type: 'min', name: '最小值'}
-                            ]
                         },
-                        markLine: {
-                            data: [
-                                {type: 'average', name: '平均值'}
-                            ]
-                        }
+                        axisLabel: {
+                            textStyle: {
+                                fontSize:20
+                            }
+                        }                    
                     },
-                    {
-                        name: '最低气温',
-                        type: 'line',
-                        data: [1, -2, 2, 5, 3, 2, 0],
-                        markPoint: {
-                            data: [
-                                {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
-                            ]
-                        },
-                        markLine: {
-                            data: [
-                                {type: 'average', name: '平均值'},
-                                [{
-                                    symbol: 'none',
-                                    x: '90%',
-                                    yAxis: 'max'
-                                }, {
-                                    symbol: 'circle',
-                                    label: {
-                                        position: 'start',
-                                        formatter: '最大值'
-                                    },
-                                    type: 'max',
-                                    name: '最高点'
-                                }]
-                            ]
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            // formatter: '{value} 个',
+                            fontSize:20
+                        },                    
+                    },
+                    series: [
+                        {
+                            name: '最高气温',
+                            type: 'line',
+                            data: data.times,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
                         }
-                    }
-                ]
-            };
-
-            option && myChart.setOption(option);
+                    ]
+                };
+                option && myChart.setOption(option);                
+            })        
         },
         mentioned() {
             var chartDom = document.getElementById("chart1");
             var myChart = this.$echarts.init(chartDom);
             var option;
-
-            option = {              
-                textStyle:{
-                    fontSize:16,
-                    color:'white'
-                },                
-                grid: {
-                    left: "3%",
-                    right: "4%",
-                    bottom: "3%",
-                    containLabel: true,
-                },                
-                xAxis: {
-                    type: "category",
-                    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                },
-                yAxis: {
-                    type: "value",
-                },
-                series: [
-                    {
-                        itemStyle: {
-                            color:'#70DFDF'
-                        },                          
-                        data: [120, 200, 150, 80, 70, 110, 130],
-                        type: "bar",
-                        showBackground: true,
-                        backgroundStyle: {
-                            color: "rgba(180, 180, 180, 0.2)",
+            this.axios.get('http://159.75.23.139:3000/rumorSubject.json').then((res)=>{
+                var data = res.data
+                option = {   
+                    tooltip: {
+                        trigger: "axis",
+                        axisPointer: {
+                            // type: "cross",
+                            label: {
+                                backgroundColor: "#6a7985",
+                            },
                         },
+                    },                               
+                    textStyle:{
+                        fontSize:16,
+                        color:'white'
+                    },                
+                    grid: {
+                        left: "3%",
+                        right: "4%",
+                        bottom: "3%",
+                        containLabel: true,
+                    },                
+                    xAxis: {
+                        type: "category",
+                        data: data.subject,
                     },
-                ],
-            };
-
-            option && myChart.setOption(option);
-        },
-        gaopin() {
-            var chartDom = document.getElementById("chart2");
-            var myChart = this.$echarts.init(chartDom);
-            var option;
-
-            option = {             
-                textStyle:{
-                    fontSize:16,
-                    color:'white'
-                },                
-                grid: {
-                    left: "3%",
-                    right: "4%",
-                    bottom: "3%",
-                    containLabel: true,
-                },                
-                xAxis: {
-                    type: "category",
-                    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                },
-                yAxis: {
-                    type: "value",
-                },
-                series: [                    
-                    {
-                        itemStyle: {
-                            color:'#FFC66E'
-                        },                           
-                        data: [120, 200, 150, 80, 70, 110, 130],
-                        type: "bar",
-                        showBackground: true,
-                        backgroundStyle: {
-                            color: "rgba(180, 180, 180, 0.2)",
+                    yAxis: {
+                        type: "value",
+                    },
+                    series: [
+                        {
+                            itemStyle: {
+                                color:'#70DFDF'
+                            },                          
+                            data: data.times,
+                            type: "bar",
+                            showBackground: true,
+                            backgroundStyle: {
+                                color: "rgba(180, 180, 180, 0.2)",
+                            },
                         },
-                    },
-                ],
-            };
+                    ],
+                };
+                option && myChart.setOption(option);
+            }).catch((err) => {
+                console.error(err)
+            })
 
-            option && myChart.setOption(option);
         },
+        //谣言高频词
+        // gaopin() {
+        //     var chartDom = document.getElementById("chart1");
+        //     var myChart = this.$echarts.init(chartDom);
+        //     var option;
+        //     option = {             
+        //         textStyle:{
+        //             fontSize:16,
+        //             color:'white'
+        //         },                
+        //         grid: {
+        //             left: "3%",
+        //             right: "4%",
+        //             bottom: "3%",
+        //             containLabel: true,
+        //         },                
+        //         xAxis: {
+        //             type: "category",
+        //             data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        //         },
+        //         yAxis: {
+        //             type: "value",
+        //         },
+        //         series: [                    
+        //             {
+        //                 itemStyle: {
+        //                     color:'#FFC66E'
+        //                 },                           
+        //                 data: [120, 200, 150, 80, 70, 110, 130],
+        //                 type: "bar",
+        //                 showBackground: true,
+        //                 backgroundStyle: {
+        //                     color: "rgba(180, 180, 180, 0.2)",
+        //                 },
+        //             },
+        //         ],
+        //     };
+
+        //     option && myChart.setOption(option);
+        // },
     },
 };
 </script>

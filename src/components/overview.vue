@@ -101,7 +101,7 @@
                             <!-- 谣言分析 -->
                             <div class="">
                                 <div id="pies1" class="pie-items" style='padding:5px'>
-                                    <img src="../../public/images/word.png"  style='width:100%'/>
+                                    <img src="http://159.75.23.139:3000/totalword.png"  style='width:100%'/>
                                 </div>
                             </div>
                         </template>
@@ -131,21 +131,21 @@ export default {
                 {
                     name: "曝光量",
                     value: 11180,
-                    unit: "次",
+                    unit: "亿次",
                 },
                 {
                     name: "真实性",
-                    value: "99%",
+                    value: "63.67%",
                     unit: "百分比",
                 },
                 {
                     name: "积极情感值",
-                    value: "60%",
+                    value: "12.89%",
                     unit: "百分比",
                 },
                 {
                     name: "参与用户人数",
-                    value: 30004,
+                    value: 22338,
                     unit: "人",
                 },
             ],
@@ -162,111 +162,71 @@ export default {
     methods: {
         heat() {
             var chart0 = this.$echarts.init(document.getElementById("pies"));
-            var option = {
-                textStyle:{
-                    fontSize:16,
-                    color:'white'
-                },                   
-                title: {
-                    // text: '堆叠区域图'
-                },
-                tooltip: {
-                    trigger: "axis",
-                    axisPointer: {
-                        type: "cross",
-                        label: {
-                            backgroundColor: "#6a7985",
+            this.axios.get('http://159.75.23.139:3000/heat.json').then((res)=>{ 
+                var data = res.data
+                var option = {
+                    textStyle:{
+                        fontSize:16,
+                        color:'white'
+                    },                   
+                    title: {
+                        // text: '堆叠区域图'
+                    },
+                    tooltip: {
+                        trigger: "axis",
+                        axisPointer: {
+                            type: "cross",
+                            label: {
+                                backgroundColor: "#6a7985",
+                            },
                         },
                     },
-                },
-                legend: {
-                    data: ["微博", "知乎", "百度", "总体"],
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: {},
+                    legend: {
+                        data: data.title,
+                        textStyle: {
+                            color: 'white'
+                        }                           
                     },
-                },
-                grid: {
-                    left: "3%",
-                    right: "4%",
-                    bottom: "3%",
-                    containLabel: true,
-                },
-                xAxis: [
-                    {
-                        type: "category",
-                        boundaryGap: false,
-                        data: [
-                            "周一",
-                            "周二",
-                            "周三",
-                            "周四",
-                            "周五",
-                            "周六",
-                            "周日",
-                        ],
-                        axisLabel: {
-                            textStyle: {
-                                fontSize:20
-                            }
-                        }                          
-                    },
-                ],
-                yAxis: [
-                    {
-                        type: "value",
-                        axisLabel: {
-                            textStyle: {
-                                fontSize:20
-                            }
-                        }                          
-                    },
-                ],
-                series: [
-                    {
-                        name: "微博",
-                        type: "line",
-                        stack: "总量",
-                        areaStyle: {},
-                        emphasis: {
-                            focus: "series",
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {},
                         },
-                        data: [120, 132, 101, 134, 90, 230, 210],
                     },
-                    {
-                        name: "知乎",
-                        type: "line",
-                        stack: "总量",
-                        areaStyle: {},
-                        emphasis: {
-                            focus: "series",
+                    grid: {
+                        left: "3%",
+                        right: "4%",
+                        bottom: "3%",
+                        containLabel: true,
+                    },
+                    xAxis: [
+                        {
+                            type: "category",
+                            boundaryGap: false,
+                            data: data.date,
+                            axisLabel: {
+                                textStyle: {
+                                    fontSize:20
+                                },
+                            }                          
                         },
-                        data: [220, 182, 191, 234, 290, 330, 310],
-                    },
-                    {
-                        name: "百度",
-                        type: "line",
-                        stack: "总量",
-                        areaStyle: {},
-                        emphasis: {
-                            focus: "series",
+                    ],
+                    yAxis: [
+                        {
+                            type: "value",
+                            axisLabel: {
+                                textStyle: {
+                                    fontSize:20
+                                },
+                                formatter: '{value} 条'
+                            }                          
                         },
-                        data: [150, 232, 201, 154, 190, 330, 410],
-                    },
-                    {
-                        name: "总体",
-                        type: "line",
-                        stack: "总量",
-                        areaStyle: {},
-                        emphasis: {
-                            focus: "series",
-                        },
-                        data: [320, 332, 301, 334, 390, 330, 320],
-                    },
-                ],
-            };
-            chart0.setOption(option);
+                    ],
+                    series: data.item,
+                };
+                chart0.setOption(option);                
+             }).catch((error) => {
+                 console.log(error)
+             })
         },
     },
 };

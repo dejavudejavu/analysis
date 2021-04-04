@@ -170,8 +170,6 @@ export default {
                 }; 
                 option && chart0.setOption(option);                               
             })
-
-
         },
         //转发关系图
         guanxi(index) {
@@ -194,38 +192,65 @@ export default {
                     var links=res.data.links
                     var nodes=res.data.nodes
                     var sourceItem={
-                        id:index,
+                        id:index+'',
                         name:this.news[index].content,
                         url:this.news[index].url,
-                        category:'',
-                        symbolSize:'40',
-                        itemStyle:{
-                            color:'#C74F77'
-                        }
+                        category:0,
+                        symbolSize:'70',
+                        // itemStyle:{
+                        //     color:'#C74F77'
+                        // }
                     }
-                    nodes.push(sourceItem);                 
+                    nodes.push(sourceItem);                       
+                    var categories= [
+                    {
+                        "name": "首发"
+                    },
+                    {
+                        "name": "第一层"
+                    },
+                    {
+                        "name": "第二层"
+                    },
+                    {
+                        "name": "第三层"
+                    },
+                    {
+                        "name": "第四层"
+                    },
+                    {
+                        "name": "第五层"
+                    },
+                    {
+                        "name": "第六层"
+                    }
+                    ]              
                     option = {                     
                         tooltip: {},
-                        // color: ["#003366", "#006699", "#4cabce", "#e5323e"],
-                        // legend: [
-                        //     {
-                        //         data: ['total', 'dfs_used','non_dfs_used'],
-                        //     },
-                        // ],
+                        color: ['#C74F77','#E5EFC1','#42A5F5','#26C6DA','#5FEDD5','#91F2FF','#FFFFFF'],
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            }),
+                            textStyle:{
+                                fontSize:20,
+                                color:'white'
+                            },                              
+                        }],
                         series: [
                             {
                                 textStyle:{
                                     fontSize:16,
                                     color:'white'
                                 },                                  
-                                // name: "Les Miserables",
                                 type: "graph",
                                 layout: "force",
                                 data: nodes,
                                 links:links,
                                 draggable: true,
                                 zoom:0.8,
-                                // categories: categories,
+                                categories: categories,
                                 roam: true,
                                 label: {
                                     show: true,
@@ -240,7 +265,7 @@ export default {
                                     max: 5,
                                 },
                                 lineStyle: {
-                                    color: "source",
+                                    color:" white",
                                     curveness: 0.3,
                                 },
                             },

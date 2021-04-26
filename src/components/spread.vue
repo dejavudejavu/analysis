@@ -29,8 +29,7 @@
                     </div>
                     <div  class="full-box">
                         <div style='display: flex;flex-direction: column;height: 100%;'>
-                            <div v-for="(item,index) in news" :key="index" class="c-list-item" style="display:flex;flex:1" @click='handleClick(index)'  @mouseover="hover = index"  @mouseleave="hover = -1" :class="{'hoverStyle':hover==index&&clk!=index,'clkStyle':clk==index} ">
-                              
+                            <div v-for="(item,index) in news" :key="index" class="c-list-item" style="display:flex;flex:1" @click='handleClick(index)'  @mouseover="hover = index"  @mouseleave="hover = -1" :class="{'hoverStyle':hover==index&&clk!=index,'clkStyle':clk==index} ">                        
                                 <div class="c-list-text t-over listItem" style ='flex:1'>
                                     <el-avatar size="38" :src="item.avatar" style='position: relative;top: 50%;transform: translate(0, -50%);'></el-avatar>
                                 </div>                                
@@ -82,6 +81,9 @@
 export default {
     data() {
         return {
+            myChartz:null,
+            myChartg:null,
+            myChartb:null,         
             clk:0,
             hover:-1,
             hoverStyle:'hoverStyle',
@@ -110,22 +112,31 @@ export default {
     },
     mounted() {
         this.getNews();        
-        this.zhuanfa();
-        this.bili();
+        this.zhuanfa(0);
+        this.bili(0);
         this.guanxi(0);
     },
+    beforeDestroy () { 
+         this.myChartz.clear()   
+         this.myChartg.clear()   
+         this.myChartb.clear()          
+    },      
     methods: {
         handleClick(index) {
             this.clk=index
             this.guanxi(index);
+            this.bili(index);
+            this.zhuanfa(index);
         },
         scrollYEvent() {},
         //转发次数和时间折线图
-        zhuanfa() {
-            var chart0 = this.$echarts.init(document.getElementById("chart2"))
-            this.axios.get('http://159.75.23.139:3000/repostSum.json').then((res)=>{
-                var data=res.data
+        zhuanfa(index) {
+            this.myChartz = this.$echarts.init(document.getElementById("chart2"))
+            this.axios.get(this.baseUrl+'/yilan-json/spread/repostSum.json').then((res)=>{
+                var data=res.data[index]
+                
                 var option = {
+                    backgroundColor: 'rgba(1,42,53,0.8)',                    
                     textStyle:{
                         fontSize:16,
                         color:'white'
@@ -145,9 +156,9 @@ export default {
                         }
                     },
                     grid:{
-                        top:25,
+                        top:50,
                         bottom:20,
-                        right:50
+                        right:55
                     },
                     series: [
                         {
@@ -168,27 +179,17 @@ export default {
                         },
                     ]
                 }; 
-                option && chart0.setOption(option);                               
+                option && this.myChartz.setOption(option);                               
             })
         },
         //转发关系图
         guanxi(index) {
             var chartDom = document.getElementById("chart1");
-            var myChart = this.$echarts.init(chartDom);
+            this.myChartg = this.$echarts.init(chartDom);
             var option;
-
-            myChart.showLoading();
-            // this.axios.get('http://159.75.23.139:3000/1.json').then((res)=>{
-            //     var data=res.data
-            //     console.log(data)
-            
-            // }).catch((err)=>{
-            //     console.log(err)
-            // })
-
-            this.axios.get('http://159.75.23.139:3000/newsSpread'+index+'.json').then((res)=>{
-                    myChart.hideLoading();
-                    console.log(res.data);
+            this.myChartg.showLoading();
+            this.axios.get(this.baseUrl+'/yilan-json/spread/newsSpread'+index+'.json').then((res)=>{
+                    this.myChartg.hideLoading();
                     var links=res.data.links
                     var nodes=res.data.nodes
                     var sourceItem={
@@ -225,11 +226,12 @@ export default {
                         "name": "第六层"
                     }
                     ]              
-                    option = {                     
+                    option = { 
                         tooltip: {},
                         color: ['#C74F77','#E5EFC1','#42A5F5','#26C6DA','#5FEDD5','#91F2FF','#FFFFFF'],
                         legend: [{
                             // selectedMode: 'single',
+                            backgroundColor: '#020f18',
                             data: categories.map(function (a) {
                                 return a.name;
                             }),
@@ -271,14 +273,14 @@ export default {
                             },
                         ],
                     };
-                    myChart.setOption(option);             
-                console.log(res)
+                    this.myChartg.setOption(option);             
+                
             }).catch((err)=>{
-                console.log(err)
+                
             })
-            option && myChart.setOption(option);
-            myChart.on('click', (params)=>{
-                console.log(params)
+            option && this.myChartg.setOption(option);
+            this.myChartg.on('click', (params)=>{
+                
                 var data=params.data
                 if(data.url!=undefined){
                      window.open(params.data.url) 
@@ -286,12 +288,13 @@ export default {
             })
         },
         //比例饼图
-        bili() {
+        bili(index) {
             var chartDom = document.getElementById("chart3");
-            var myChart = this.$echarts.init(chartDom);
+            this.myChartb = this.$echarts.init(chartDom);
             var option;
-            this.axios.get('http://159.75.23.139:3000/level.json').then((res)=>{
-            var data = res.data;
+            this.axios.get(this.baseUrl+'/yilan-json/spread/level.json').then((res)=>{                
+            var data = res.data[index];
+            
             var names=['','第一层','第二层','第三层','第四层','第五层','第六层',]
             var value=[]
             for(var i=1;i<=6;i++){
@@ -302,6 +305,7 @@ export default {
                 value.push(item)
             }            
             option = {
+                backgroundColor: 'rgba(1,42,53,0.8)',                                    
                 legend: {
                     orient:'vertical',
                     right:'right',
@@ -313,15 +317,6 @@ export default {
                 tooltip: {
                     trigger: 'item'
                 },                
-                // toolbox: {
-                //     show: true,
-                //     feature: {
-                //         mark: {show: true},
-                //         dataView: {show: true, readOnly: false},
-                //         restore: {show: true},
-                //         saveAsImage: {show: true}
-                //     }
-                // },
                 series: [
                     {
                         name: '转发层级',
@@ -336,14 +331,14 @@ export default {
                     }
                 ]
             };       
-            option && myChart.setOption(option);                     
+            option && this.myChartb.setOption(option);                     
             })
 
 
         },
         //获取热点新闻
         getNews(){
-            this.axios.get('http://159.75.23.139:3000/hotNews.json').then((res)=>{
+            this.axios.get(this.baseUrl+'/yilan-json/spread/hotNews.json').then((res)=>{
                 this.news=res.data
             })
         }

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <c-scroll class="c-full">
-      <template v-slot:main>
+    <div class="c-full" style="overflow:hidden">
+      <template >
         <div class="index-main">
           <div class="head-pic"></div>
           <!-- head -->
@@ -64,18 +64,15 @@
               </div>
             </div>
           </div>
-          <!-- main -->
-          <!-- <router-view></router-view> -->
           <Overview v-if='selected===0'/>
           <Spread v-if='selected===1'/>
           <Emotiom v-if='selected===2'/>
           <Effect v-if='selected===3'/>
           <Rumor v-if='selected===4'/>
-          <!-- background -->
           <div class="c-background"></div>
-        </div>
+        </div>  
       </template>
-    </c-scroll>
+    </div>
   </div>
 </template>
 
@@ -138,16 +135,22 @@ export default {
           imgPath: rumor,
         },
       ],
-      selected: 0,
+      selected: null,
     };
   },
   methods:{
       handleClick(index) {
-          this.selected=index
-           console.log(this.selected);
+          this.Storage.set('index',index)
+          this.selected=this.Storage.get('index')
       },
   },
-  created(){
+  mounted(){
+    if(this.Storage.get('index')===null){
+      this.selected=0;
+      this.Storage.set('index',0)
+    }else{
+      this.selected=this.Storage.get('index')      
+    }
     setInterval(()=>{
       this.time = dayjs().format('YYYY-MM-DD HH:mm:ss');
     }, 1000);
